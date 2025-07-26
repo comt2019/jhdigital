@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>장항중학교 1학년 동의서 링크 포털</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            margin-bottom: 35px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+
+        .school-badge {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        select, input[type="number"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e8ed;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        select:focus, input[type="number"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .message {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 500;
+            display: none;
+        }
+
+        .error {
+            background: #ffe6e6;
+            color: #d32f2f;
+            border: 1px solid #ffcdd2;
+        }
+
+        .success {
+            background: #e8f5e8;
+            color: #2e7d32;
+            border: 1px solid #c8e6c9;
+        }
+
+        .info {
+            background: #e3f2fd;
+            color: #1976d2;
+            border: 1px solid #bbdefb;
+        }
+
+        .student-info {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            display: none;
+        }
+
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e1e8ed;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="school-badge">🏫 장항중학교</div>
+            <h1>📋 동의서 링크 포털</h1>
+            <div class="subtitle">1학년 학생 개별 동의서 링크</div>
+        </div>
+        
+        <div class="form-group">
+            <label for="class">반</label>
+            <select id="class">
+                <option value="">반을 선택하세요</option>
+                <option value="1">1반</option>
+                <option value="2">2반</option>
+                <option value="3">3반</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="number">번호</label>
+            <input type="number" id="number" placeholder="학번을 입력하세요 (1~21)" min="1" max="21">
+        </div>
+
+        <button class="btn" id="submitBtn" onclick="goToLink()">
+            🔗 내 동의서 링크로 이동
+        </button>
+        
+        <div class="message error" id="errorMsg"></div>
+        <div class="message success" id="successMsg"></div>
+        <div class="message info" id="infoMsg"></div>
+
+        <div class="student-info" id="studentInfo">
+            <strong>확인된 정보:</strong><br>
+            <span id="studentDetails"></span>
+        </div>
+
+        <div class="footer">
+            💡 반과 번호를 정확히 입력하면<br>개별 동의서 링크로 이동합니다.
+        </div>
+    </div>
+
+    <script>
+        // 학생 링크 데이터
+        const studentLinks = {
+            "1": {
+                "1": "https://det1.hrc.kr/Manager/Agree?studentLink=C1DDD1E7",
+                "2": "https://det1.hrc.kr/Manager/Agree?studentLink=1A3D5D33",
+                "3": "https://det1.hrc.kr/Manager/Agree?studentLink=75B3ED21",
+                "4": "https://det1.hrc.kr/Manager/Agree?studentLink=EC294995",
+                "5": "https://det1.hrc.kr/Manager/Agree?studentLink=FCA70636",
+                "6": "https://det1.hrc.kr/Manager/Agree?studentLink=291372C4",
+                "7": "https://det1.hrc.kr/Manager/Agree?studentLink=E1C9CC19",
+                "8": "https://det1.hrc.kr/Manager/Agree?studentLink=CFAE3354",
+                "9": "https://det1.hrc.kr/Manager/Agree?studentLink=90CC695C",
+                "10": "https://det1.hrc.kr/Manager/Agree?studentLink=85CB13BD",
+                "11": "https://det1.hrc.kr/Manager/Agree?studentLink=24EE3917",
+                "12": "https://det1.hrc.kr/Manager/Agree?studentLink=83040957",
+                "13": "https://det1.hrc.kr/Manager/Agree?studentLink=FF5C55BC",
+                "14": "https://det1.hrc.kr/Manager/Agree?studentLink=6EC1B690",
+                "15": "https://det1.hrc.kr/Manager/Agree?studentLink=D89A3314",
+                "16": "https://det1.hrc.kr/Manager/Agree?studentLink=2D605E75",
+                "17": "https://det1.hrc.kr/Manager/Agree?studentLink=945C98DE",
+                "18": "https://det1.hrc.kr/Manager/Agree?studentLink=2C8B8544",
+                "19": "https://det1.hrc.kr/Manager/Agree?studentLink=6A32F4D2",
+                "20": "https://det1.hrc.kr/Manager/Agree?studentLink=433B23F7",
+                "21": "https://det1.hrc.kr/Manager/Agree?studentLink=9FC97748"
+            },
+            "2": {
+                "1": "https://det1.hrc.kr/Manager/Agree?studentLink=7D7EE657",
+                "2": "https://det1.hrc.kr/Manager/Agree?studentLink=A6A277CE",
+                "3": "https://det1.hrc.kr/Manager/Agree?studentLink=A6CE9476",
+                "4": "https://det1.hrc.kr/Manager/Agree?studentLink=CDB7F981",
+                "5": "https://det1.hrc.kr/Manager/Agree?studentLink=D6C91EC4",
+                "6": "https://det1.hrc.kr/Manager/Agree?studentLink=DE099531",
+                "7": "https://det1.hrc.kr/Manager/Agree?studentLink=B7553500",
+                "8": "https://det1.hrc.kr/Manager/Agree?studentLink=0632780F",
+                "9": "https://det1.hrc.kr/Manager/Agree?studentLink=666EE3D2",
+                "10": "https://det1.hrc.kr/Manager/Agree?studentLink=B4435B35",
+                "11": "https://det1.hrc.kr/Manager/Agree?studentLink=7B1370BD",
+                "12": "https://det1.hrc.kr/Manager/Agree?studentLink=84396725",
+                "13": "https://det1.hrc.kr/Manager/Agree?studentLink=5DA8ADD5",
+                "14": "https://det1.hrc.kr/Manager/Agree?studentLink=A8012722",
+                "15": "https://det1.hrc.kr/Manager/Agree?studentLink=719032B1",
+                "16": "https://det1.hrc.kr/Manager/Agree?studentLink=9F3D39A1",
+                "17": "https://det1.hrc.kr/Manager/Agree?studentLink=177094E5",
+                "18": "https://det1.hrc.kr/Manager/Agree?studentLink=52DBF67E",
+                "19": "https://det1.hrc.kr/Manager/Agree?studentLink=67A6C613",
+                "20": "https://det1.hrc.kr/Manager/Agree?studentLink=8F8B1CC9"
+            },
+            "3": {
+                "1": "https://det1.hrc.kr/Manager/Agree?studentLink=279A36B0",
+                "2": "https://det1.hrc.kr/Manager/Agree?studentLink=D51D7E40",
+                "3": "https://det1.hrc.kr/Manager/Agree?studentLink=579CFDC1",
+                "4": "https://det1.hrc.kr/Manager/Agree?studentLink=7EAB302C",
+                "5": "https://det1.hrc.kr/Manager/Agree?studentLink=92396358",
+                "6": "https://det1.hrc.kr/Manager/Agree?studentLink=ED054CF3",
+                "7": "https://det1.hrc.kr/Manager/Agree?studentLink=47A12300",
+                "8": "https://det1.hrc.kr/Manager/Agree?studentLink=E6A1B854",
+                "9": "https://det1.hrc.kr/Manager/Agree?studentLink=2B68D069",
+                "10": "https://det1.hrc.kr/Manager/Agree?studentLink=2B0E22FB",
+                "11": "https://det1.hrc.kr/Manager/Agree?studentLink=DC4FEC79",
+                "12": "https://det1.hrc.kr/Manager/Agree?studentLink=1C2ED197",
+                "13": "https://det1.hrc.kr/Manager/Agree?studentLink=5858F673",
+                "14": "https://det1.hrc.kr/Manager/Agree?studentLink=DBCCF300",
+                "15": "https://det1.hrc.kr/Manager/Agree?studentLink=7115C00C",
+                "16": "https://det1.hrc.kr/Manager/Agree?studentLink=962744A2",
+                "17": "https://det1.hrc.kr/Manager/Agree?studentLink=C5C8AE62",
+                "18": "https://det1.hrc.kr/Manager/Agree?studentLink=22921CC4",
+                "19": "https://det1.hrc.kr/Manager/Agree?studentLink=6FB4D3A6",
+                "20": "https://det1.hrc.kr/Manager/Agree?studentLink=5DAFAF56"
+            }
+        };
+
+        function goToLink() {
+            const classValue = document.getElementById('class').value;
+            const numberValue = document.getElementById('number').value;
+
+            hideAllMessages();
+
+            // 입력 검증
+            if (!classValue) {
+                showError('반을 선택해주세요.');
+                return;
+            }
+
+            if (!numberValue || numberValue < 1) {
+                showError('올바른 학번을 입력해주세요.');
+                return;
+            }
+
+            // 해당 학생의 링크 찾기
+            const studentLink = studentLinks[classValue] && studentLinks[classValue][numberValue];
+
+            if (!studentLink) {
+                showError(`1학년 ${classValue}반 ${numberValue}번 학생의 링크를 찾을 수 없습니다. 반과 번호를 다시 확인해주세요.`);
+                return;
+            }
+
+            // 학생 정보 표시
+            document.getElementById('studentDetails').textContent = `1학년 ${classValue}반 ${numberValue}번`;
+            document.getElementById('studentInfo').style.display = 'block';
+
+            // 버튼 로딩 상태
+            const btn = document.getElementById('submitBtn');
+            btn.innerHTML = '<span class="loading"></span>동의서 페이지로 이동 중...';
+            btn.disabled = true;
+
+            showSuccess(`1학년 ${classValue}반 ${numberValue}번 학생의 동의서 링크로 이동합니다...`);
+            
+            // 1.5초 후 링크로 이동
+            setTimeout(() => {
+                window.open(studentLink, '_blank');
+                
+                // 버튼 복원
+                btn.innerHTML = '🔗 내 동의서 링크로 이동';
+                btn.disabled = false;
+                
+                showInfo('새 창에서 동의서 페이지가 열렸습니다.');
+            }, 1500);
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMsg');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
+        function showSuccess(message) {
+            const successDiv = document.getElementById('successMsg');
+            successDiv.textContent = message;
+            successDiv.style.display = 'block';
+        }
+
+        function showInfo(message) {
+            const infoDiv = document.getElementById('infoMsg');
+            infoDiv.textContent = message;
+            infoDiv.style.display = 'block';
+            
+            setTimeout(() => {
+                infoDiv.style.display = 'none';
+            }, 3000);
+        }
+
+        function hideAllMessages() {
+            document.getElementById('errorMsg').style.display = 'none';
+            document.getElementById('successMsg').style.display = 'none';
+            document.getElementById('infoMsg').style.display = 'none';
+            document.getElementById('studentInfo').style.display = 'none';
+        }
+
+        // 번호 입력 시 범위 체크
+        document.getElementById('number').addEventListener('input', function() {
+            const classValue = document.getElementById('class').value;
+            const numberValue = parseInt(this.value);
+            
+            if (classValue && numberValue) {
+                const maxNumber = classValue === '2' ? 20 : 21; // 2반은 20번까지, 1반과 3반은 21번까지
+                this.setAttribute('max', maxNumber);
+                
+                if (numberValue > maxNumber) {
+                    showError(`${classValue}반은 ${maxNumber}번까지 있습니다.`);
+                    this.value = '';
+                } else {
+                    hideAllMessages();
+                }
+            }
+        });
+
+        // 반 선택 시 번호 범위 업데이트
+        document.getElementById('class').addEventListener('change', function() {
+            const numberInput = document.getElementById('number');
+            const classValue = this.value;
+            
+            if (classValue === '2') {
+                numberInput.setAttribute('max', '20');
+                numberInput.placeholder = '학번을 입력하세요 (1~20)';
+            } else {
+                numberInput.setAttribute('max', '21');
+                numberInput.placeholder = '학번을 입력하세요 (1~21)';
+            }
+            
+            numberInput.value = '';
+            hideAllMessages();
+        });
+
+        // 엔터 키로 링크 이동
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !document.getElementById('submitBtn').disabled) {
+                goToLink();
+            }
+        });
+    </script>
+</body>
+</html>
